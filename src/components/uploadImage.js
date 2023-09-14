@@ -12,6 +12,7 @@ export const UploadImage = () => {
       <p1 className="flex justify-center pt-[20px] [font-family:'Poppins-Medium',Helvetica] text-[15px] text-[#828282]">
         File should be Jpeg,Png,...
       </p1>
+      
       <DragAndDrop/>
 
       <h1 className="flex justify-center [font-family:'Poppins-Medium',Helvetica] font-medium text-[#bdbdbd]">Or</h1>

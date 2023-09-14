@@ -16,9 +16,11 @@ export const UploadImage = () => {
 
       <h1 className="flex justify-center [font-family:'Poppins-Medium',Helvetica] font-medium text-[#bdbdbd]">Or</h1>
       <div className=" flex justify-center mt-[50px]">
-        <label htmlFor='imageFile' className='bg-[#2f80ed] rounded-[10px] py-[10px] px-[15px] text-white shadow-[0px_4px_12px_#0000001a]'>
+        <label htmlFor='imageFile' className='bg-[#2f80ed] rounded-[10px] py-[10px] px-[15px] text-white shadow-[0px_4px_12px_#0000001a] cursor-pointer active:bg-[#15335a]'>
           Choose a file
         </label>
+        <input type='file' id = "imageFile" accept='image/*'
+        className='hidden'/>
       </div>
     </div>
   )

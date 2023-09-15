@@ -11,14 +11,18 @@ export const DragAndDrop = () => {
 
   const handleDrop = async(e) => {
     e.preventDefault()
-    const imgFile = e.dataTransfer.files[0]
+    const file = e.dataTransfer.files[0]
     // console.log(e.dataTransfer.files[0])
-    console.log(imgFile)
-    const form = new FormData()
-    form.append("file",e.dataTransfer.files[0])
+    console.log(file)
     
-    const {error} = await supabase.storage.from('images').upload("images/" + uuidv4(), form)
-    console(error)
+    const {data, error} = await supabase.storage.from('images').upload("images/" + uuidv4(), file)
+
+    if(data){
+      console.log("successfully stored")
+    }
+    else{
+      console.log(error)
+    }
 
   }
   // console.log(supabase)

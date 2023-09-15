@@ -9,7 +9,7 @@ export const UploadImage = () => {
 
   const UploadImage = async(e) =>{
     let file = e.target.files[0]
-
+    console.log(file)
     const {data, error} = await supabase.storage.from('images').upload("images/" + uuidv4(), file)
 
     if(data){

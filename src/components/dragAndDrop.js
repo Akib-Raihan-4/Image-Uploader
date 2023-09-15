@@ -2,11 +2,13 @@ import React, { useState, useRef } from 'react'
 import supabase from '../config/supabase'
 import { v4 as uuidv4 } from 'uuid'
 import { LoadingBar } from './loading'
+import { ImageDisplay } from './imageDisplay'
 
 
 export const DragAndDrop = () => {
   const [drag, setDrag] = useState(false)
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false)
+  const [imgUrl, setImgUrl] = useState(null)
 
   const handleDragOver = (e) =>{
     e.preventDefault()
@@ -23,11 +25,16 @@ export const DragAndDrop = () => {
     // console.log(e.dataTransfer.files[0])
     console.log(file)
     setLoading(true);
+    let id = uuidv4()
+    const {data, error} = await supabase.storage.from('images').upload("images/" + id, file)
     
-    const {data, error} = await supabase.storage.from('images').upload("images/" + uuidv4(), file)
+
 
     if(data){
       console.log("successfully stored")
+      const imageURL = supabase.storage.from('images').getPublicUrl("images/"+ id).data.publicUrl
+      setImgUrl(imageURL)
+      
     }
     else{
       console.log(error)
@@ -41,10 +48,14 @@ export const DragAndDrop = () => {
     let file = e.target.files[0]
     console.log(file)
     setLoading(true);
+    let id = uuidv4()
 
-    const {data, error} = await supabase.storage.from('images').upload("images/" + uuidv4(), file)
+    const {data, error} = await supabase.storage.from('images').upload("images/" + id, file)
     if(data){
       console.log("successfully stored")
+      console.log("successfully stored")
+      const imageURL = supabase.storage.from('images').getPublicUrl("images/"+ id).data.publicUrl
+      setImgUrl(imageURL)
     }
     else{
       console.log(error)
@@ -55,6 +66,7 @@ export const DragAndDrop = () => {
   return (
     <>
       {loading ? (<LoadingBar/>):
+      imgUrl ? (<ImageDisplay imageUrl={imgUrl}/>) :
       (
         <>
           <div className="sm:w-[552px] sm:h-[669px] w-[350px] bg-white rounded-[12px] shadow-[0px_0px_40px_#0000001a]">
@@ -65,7 +77,7 @@ export const DragAndDrop = () => {
               File should be Jpeg,Png,...
             </p1>
             <div className={`flex flex-col justify-center items-center h-[300px] sm:m-[42px]
-            m-[30px] rounded-[20px] bg-[#f6f8fb] border-[2px] border-dashed border-[#97bef4] gap-[50px] ${drag ? "opacity-100" : "opacity-50"}`}
+            m-[30px] rounded-[20px] bg-[#f6f8fb] border-[2px] border-dashed border-[#97bef4] gap-[50px] ${drag ? "opacity-100" : "opacity-70"}`}
             onDragOver={handleDragOver}
             onDragLeave={handleDragLeave}
             onDrop={handleDrop}

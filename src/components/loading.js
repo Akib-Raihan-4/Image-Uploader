@@ -9,7 +9,6 @@ export const LoadingBar = () => {
         <div className="progress-bar sm:ml-20 ml-10">
             <div className="progress-fill"></div>
         </div>
-        
     </div>
   )
 }

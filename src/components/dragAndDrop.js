@@ -1,18 +1,31 @@
-import React from 'react'
+import React, { useState, useRef } from 'react'
 import supabase from '../config/supabase'
+import { v4 as uuidv4 } from 'uuid'
 
 
 export const DragAndDrop = () => {
 
-  const handleDrop = (e) => {
+  const handleDragOver = (e) =>{
     e.preventDefault()
-    
   }
-  console.log(supabase)
+
+  const handleDrop = async(e) => {
+    e.preventDefault()
+    const imgFile = e.dataTransfer.files[0]
+    // console.log(e.dataTransfer.files[0])
+    console.log(imgFile)
+    const form = new FormData()
+    form.append("file",e.dataTransfer.files[0])
+    
+    const {error} = await supabase.storage.from('images').upload("images/" + uuidv4(), form)
+    console(error)
+
+  }
+  // console.log(supabase)
 
   return (
     <div className="flex flex-col justify-center items-center h-[300px] m-[42px] rounded-[20px] bg-[#f6f8fb] border-[2px] border-dashed border-[#97bef4] gap-[60px]"
-    
+    onDragOver={handleDragOver}
     onDrop={handleDrop}
     >
         <img src='image.svg'/>

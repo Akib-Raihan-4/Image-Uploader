@@ -2,8 +2,25 @@ import React from 'react'
 
 import { imageDB } from '../config'
 import { DragAndDrop } from './dragAndDrop'
+import supabase from '../config/supabase'
+import { v4 as uuidv4 } from 'uuid'
 
 export const UploadImage = () => {
+
+  const UploadImage = async(e) =>{
+    let file = e.target.files[0]
+
+    const {data, error} = await supabase.storage.from('images').upload("images/" + uuidv4(), file)
+
+    if(data){
+      console.log("successfully stored")
+    }
+    else{
+      console.log(error)
+    }
+  }
+
+
   return (
     <div className="w-[552px] h-[669px] bg-white rounded-[12px] shadow-[0px_0px_40px_#0000001a] ">
       <h1 className="flex justify-center pt-[50px] text-[#4f4f4f] [font-family:'Poppins-Medium',Helvetica] font-medium text-[27px] tracking-[-0.63px]">
@@ -21,6 +38,7 @@ export const UploadImage = () => {
           Choose a file
         </label>
         <input type='file' id = "imageFile" accept='image/*'
+        onChange={(e) => UploadImage(e)}
         className='hidden'/>
       </div>
     </div>

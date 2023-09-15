@@ -1,12 +1,20 @@
 import React, { useState, useRef } from 'react'
 import supabase from '../config/supabase'
 import { v4 as uuidv4 } from 'uuid'
+import { LoadingBar } from './loading'
 
 
 export const DragAndDrop = () => {
+  const [drag, setDrag] = useState(false)
+  const [loading, setLoading] = useState(false);
 
   const handleDragOver = (e) =>{
     e.preventDefault()
+    setDrag(true)
+  }
+  const handleDragLeave = (e) =>{
+    e.preventDefault()
+    setDrag(false)
   }
 
   const handleDrop = async(e) => {
@@ -14,6 +22,7 @@ export const DragAndDrop = () => {
     const file = e.dataTransfer.files[0]
     // console.log(e.dataTransfer.files[0])
     console.log(file)
+    setLoading(true);
     
     const {data, error} = await supabase.storage.from('images').upload("images/" + uuidv4(), file)
 
@@ -23,17 +32,58 @@ export const DragAndDrop = () => {
     else{
       console.log(error)
     }
+    setLoading(false);
 
   }
   // console.log(supabase)
 
+  const UploadImage = async(e) =>{
+    let file = e.target.files[0]
+    console.log(file)
+    setLoading(true);
+
+    const {data, error} = await supabase.storage.from('images').upload("images/" + uuidv4(), file)
+    if(data){
+      console.log("successfully stored")
+    }
+    else{
+      console.log(error)
+    }
+    setLoading(false);
+  }
+
   return (
-    <div className="flex flex-col justify-center items-center h-[300px] m-[42px] rounded-[20px] bg-[#f6f8fb] border-[2px] border-dashed border-[#97bef4] gap-[60px]"
-    onDragOver={handleDragOver}
-    onDrop={handleDrop}
-    >
-        <img src='image.svg'/>
-        <h1 className="[font-family:'Poppins-Medium',Helvetica] font-medium text-[#bdbdbd] ">Drag & Drop your image here</h1>
-    </div>
+    <>
+      {loading ? (<LoadingBar/>):
+      (
+        <>
+          <div className="w-[552px] h-[669px] bg-white rounded-[12px] shadow-[0px_0px_40px_#0000001a]">
+            <h1 className="flex justify-center pt-[50px] text-[#4f4f4f] [font-family:'Poppins-Medium',Helvetica] font-medium text-[27px] tracking-[-0.63px]">
+              Upload your image
+            </h1>
+            <p1 className="flex justify-center pt-[20px] [font-family:'Poppins-Medium',Helvetica] text-[15px] text-[#828282]">
+              File should be Jpeg,Png,...
+            </p1>
+            <div className={`flex flex-col justify-center items-center h-[300px] m-[42px] rounded-[20px] bg-[#f6f8fb] border-[2px] border-dashed border-[#97bef4] gap-[60px] ${drag ? "opacity-100" : "opacity-50"}`}
+            onDragOver={handleDragOver}
+            onDragLeave={handleDragLeave}
+            onDrop={handleDrop}
+            >
+                <img src='image.svg'/>
+                <h1 className="[font-family:'Poppins-Medium',Helvetica] font-medium text-[#bdbdbd] ">Drag & Drop your image here</h1>
+            </div>
+            <h1 className="flex justify-center [font-family:'Poppins-Medium',Helvetica] font-medium text-[#bdbdbd]">Or</h1>
+            <div className=" flex justify-center mt-[50px]">
+              <label htmlFor='imageFile' className='bg-[#2f80ed] rounded-[10px] py-[10px] px-[15px] text-white shadow-[0px_4px_12px_#0000001a] cursor-pointer active:bg-[#15335a]'>
+                Choose a file
+              </label>
+              <input type='file' id = "imageFile" accept='image/*'
+              onChange={(e) => UploadImage(e)}
+              className='hidden'/>
+            </div>
+          </div>
+        </>
+      )}
+    </>
   )
 }

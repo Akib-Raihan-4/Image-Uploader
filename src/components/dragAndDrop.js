@@ -8,7 +8,7 @@ import { ImageDisplay } from './imageDisplay'
 export const DragAndDrop = () => {
   const [drag, setDrag] = useState(false)
   const [loading, setLoading] = useState(false)
-  const [imgUrl, setImgUrl] = useState(null)
+  const [imgUrl, setImgUrl] = useState(true)
 
   const handleDragOver = (e) =>{
     e.preventDefault()

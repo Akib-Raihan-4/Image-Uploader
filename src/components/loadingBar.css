@@ -5,6 +5,12 @@
     background: #f2f2f2;
     border-radius: 25px;
 }
+
+@media only screen and (max-width: 500px) {
+  .progress-bar{
+    width: 280px;
+  }
+}
   
 .progress-fill {
 position: absolute;

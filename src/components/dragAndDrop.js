@@ -57,23 +57,24 @@ export const DragAndDrop = () => {
       {loading ? (<LoadingBar/>):
       (
         <>
-          <div className="w-[552px] h-[669px] bg-white rounded-[12px] shadow-[0px_0px_40px_#0000001a]">
+          <div className="sm:w-[552px] sm:h-[669px] w-[350px] bg-white rounded-[12px] shadow-[0px_0px_40px_#0000001a]">
             <h1 className="flex justify-center pt-[50px] text-[#4f4f4f] [font-family:'Poppins-Medium',Helvetica] font-medium text-[27px] tracking-[-0.63px]">
               Upload your image
             </h1>
             <p1 className="flex justify-center pt-[20px] [font-family:'Poppins-Medium',Helvetica] text-[15px] text-[#828282]">
               File should be Jpeg,Png,...
             </p1>
-            <div className={`flex flex-col justify-center items-center h-[300px] m-[42px] rounded-[20px] bg-[#f6f8fb] border-[2px] border-dashed border-[#97bef4] gap-[60px] ${drag ? "opacity-100" : "opacity-50"}`}
+            <div className={`flex flex-col justify-center items-center h-[300px] sm:m-[42px]
+            m-[30px] rounded-[20px] bg-[#f6f8fb] border-[2px] border-dashed border-[#97bef4] gap-[50px] ${drag ? "opacity-100" : "opacity-50"}`}
             onDragOver={handleDragOver}
             onDragLeave={handleDragLeave}
             onDrop={handleDrop}
             >
-                <img src='image.svg'/>
+                <img src='image.svg' className="w-[150px]" />
                 <h1 className="[font-family:'Poppins-Medium',Helvetica] font-medium text-[#bdbdbd] ">Drag & Drop your image here</h1>
             </div>
             <h1 className="flex justify-center [font-family:'Poppins-Medium',Helvetica] font-medium text-[#bdbdbd]">Or</h1>
-            <div className=" flex justify-center mt-[50px]">
+            <div className=" flex justify-center sm:mt-[50px] my-[20px]">
               <label htmlFor='imageFile' className='bg-[#2f80ed] rounded-[10px] py-[10px] px-[15px] text-white shadow-[0px_4px_12px_#0000001a] cursor-pointer active:bg-[#15335a]'>
                 Choose a file
               </label>
